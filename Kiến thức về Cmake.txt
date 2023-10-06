@@ -1,0 +1,107 @@
+Kiến thức về Cmake
+
+
+1.cmake_minimum_required(VERSION 3.16): Khai báo phiên bản thấp nhất cho Cmake
+
+2.project(CppProject VERSION 1.0.0 LANGUAGES CXX)
+Câu lệnh project dùng để xác định thông tin về dự án như :
+tên dự án, ngôn ngữ lập trình sử dụng
+project(tên dự án
+	[CXX | C |..]
+	[VERSION    ]
+	[DESCRIPTION "mô tả về dự án"]
+	[HOMEPAGE_URL "url trang chủ"]
+	[LANGUAGES ngôn ngữ 1[ngôn ngữ 2]]
+)
+Tên dự án: là thông tin bắt buộc các tham số còn lại là thông tin
+tùy chọn có thể có hoặc không 
+Nếu ta không chọn ngôn ngữ thì Cmake sẽ sử dụng mặc định C hoặc C++
+
+3. add_executable: Để tạo 1 tệp thực thi từ source code
+
+>>add_executable(ten_thuc_thi source1.cpp source2.cpp)
+ 
+------------- Các bước cơ bản để chạy 1 file Cmake-------------
+1. Viết file source và cmake
+2. mkdir build
+3.cd build 
+3. cmake .. ( Câu lệnh cmake: dùng để gọi CMake, công cụ giúp tự động tạo và 
+		cấu hình các tệp dự án và build dựa trên tệp "CMakeLists.txt"
+4. cmake --build .
+----------------------------------------------------------------
+
+4. add_library : được sử dụng để tạo thư viện trong dự án của bạn
+Thư viện có thể là thư viện tĩnh (Static) hoặc thư viện động (Share)
+add_library(ten_thu_vien [STATIC | SHARED | MODULE]
+            source1.cpp source2.cpp ...
+)
+Ví dụ:
+add_library(my_static_lib STATIC source1.cpp source2.cpp)
+Trong ví dụ này : thư viện my_static_lib được tạo từ 2 tệp nguồn "source1.cpp
+								  source2.cpp"
+5.target_link_libraries:
+Sử dụng để liên kết các thư viện với 1 target cụ thể trong dự án của bạn.
+Target có thể là 1 tệp thực thi(executable), 1 thư viện hoặc 1 mục tiêu nào đó
+đã được định nghĩa trong file CMakeLists.txt
+target_link_libraries(muc_tieu ten_thu_vien1 ten_thu_vien2 ...)
+Ví dụ:
+target_link_libraries(my_app my_lib)
+Liên kết thư viện my_lib và tệp thực thi my_app
+6.add_subdirectory:
+Thêm thư mục con vào quy trình biên dịch của dự án hiện tại
+Các dự án Cmake thường được tổ chức thành cây thư mục, mỗi thư mục con
+có thể chứa source code và file Cmake riêng biệt 
+Câu lệnh add_subdirectory giúp bạn thêm thư mục con vào quy trình biên dịch
+của dự án
+Cú pháp:
+add_subdirectory(path_to_subdirectory [binary_dir])
+path_to_sub: đường dẫn đến thư mục con bạn muốn thêm vào dự án
+binary_dir :(tùy chọn) đường dẫn đến thư mục build cho thư mục con.
+	    Nếu k cung cấp giá trị này, nó sẽ mặc định là thư mục build của dự án
+7. target_include_directories:
+Trong CMake, khi bạn xây dựng 1 dự án, có thể có nhiều mục tiêu khác nhau như
+tệp thực thi(executable), thư viện(library). Mỗi mục tiêu này cần sử dụng các 
+file .h để biên dịch và liên kết. Các tệp tiêu đề này thường nằm trong các thư 
+mục khác nhau trong dự án của bạn
+Lệnh này cho phép bạn xác định được các thư mục chứa các file H mà 1 mục tiêu cụ thể
+cần sử dụng. Điều này rất quan trọng để trình biên dịch biết nơi để tìm kiếm
+các tệp tiêu đề cần thiết
+Cú pháp:
+target_include_directories(muc_tieu
+                           [SYSTEM]
+                           INTERFACE|PUBLIC|PRIVATE
+                           directory1
+                           directory2
+                           ...
+)
+[SYSTEM] : (Tùy chọn) Được sử dụng để chỉ định rằng các thư mục được chỉ định là
+	  thư mục hệ thống và có thể được xử lí khác biệt bởi trình biên dịch
+INTERFACE|PUBLIC|PRIVATE: là các xác định mức độ truyền thông tin về đường dẫn
+tiêu đề cho các mục tiêu
+INTERFACE: sử dụng cho các mục tiêu sử dụng mục tiêu được xác định nhưng k áp
+	  dụng cho mục tiêu đó 
+PUBLIC: đường dẫn áp dụng cho mục tiêu được xác định cũng như tất cả mục tiêu
+	sử dụng mục tiêu đó
+PRIVATE: Đường dẫn áp dụng cho mục tiêu xác định
+
+8. set:
+Được sử dụng để đặt giá trị cho 1 biến
+Cú pháp:
+set(VARIABLE_NAME value)
+Ví dụ:
+set(my_variable "Hello, World!")
+
+set(CMAKE_CXX_STANDARD            17)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(CMAKE_CXX_EXTENSIONS        FALSE)
+CMAKE_CXX_STANDARD:Đây là một biến để chỉ định phiên bản tiêu chuẩn của ngôn ngữ C++.
+		   Nó xác định cú pháp và tính năng của ngôn ngữ C++ mà bạn muốn sử 
+		   dụng trong dự án của mình
+CMAKE_CXX_STANDARD_REQUIRED: Đâ là 1 tùy chọn kiểu boolean để xác định xem ngôn ngữ
+C++ tiêu chuẩn đã được yêu cầu hay không. Nếu bạn chọn giá trị TRUE, CMake sẽ yêu cầu
+trình biên dịch hỗ trợ phiên bản C++ tiêu chuẩn đã chọn ở CMAKE_CXX_STANDARD 
+Nếu chọn FALSE thì cấu hình sẽ thất bại
+CMAKE_CXX_EXTENSIONS:Đây là 1 tùy chọn boolean xác định xem bạn có muốn sử dụng 
+các phần mở rộng của trình biên dịch cho phiên bản C++ tiêu chuẩn mà bạn đã chọn 
+hay không.
+

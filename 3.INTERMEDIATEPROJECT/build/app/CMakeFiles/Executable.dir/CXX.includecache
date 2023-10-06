@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/my_lib/mylib1.h
+
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/3.INTERMEDIATEPROJECT/app/main.cc
+iostream
+-
+mylib1.h
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/3.INTERMEDIATEPROJECT/app/mylib1.h
+

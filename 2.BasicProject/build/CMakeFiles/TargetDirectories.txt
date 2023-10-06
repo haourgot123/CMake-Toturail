@@ -1,0 +1,4 @@
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/2.BasicProject/build/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/2.BasicProject/build/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/2.BasicProject/build/CMakeFiles/Executable.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/2.BasicProject/build/CMakeFiles/Library.dir
