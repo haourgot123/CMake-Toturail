@@ -1,0 +1,14 @@
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/external/json/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/external/json/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/config_file/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/config_file/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/app/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/app/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/app/CMakeFiles/Executable.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/src/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/src/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/src/my_lib/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/src/my_lib/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/7.EXTERNALGITSUBMODULE/build/src/my_lib/CMakeFiles/Library.dir
