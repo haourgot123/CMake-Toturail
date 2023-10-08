@@ -104,4 +104,216 @@ Nếu chọn FALSE thì cấu hình sẽ thất bại
 CMAKE_CXX_EXTENSIONS:Đây là 1 tùy chọn boolean xác định xem bạn có muốn sử dụng 
 các phần mở rộng của trình biên dịch cho phiên bản C++ tiêu chuẩn mà bạn đã chọn 
 hay không.
+9. option:
+Sử dụng để định nghĩa các tùy chọn cho dự án của bạn
+Cú pháp:
+option(option_name "option_description" initial_value)
+option_name: Tên tùy chọn
+option_descreption : Mô tả tùy chọn, thông thường là 1 chuỗi để giải thích ý nghĩa
+		    của tùy chọn
+inititial_value: Giá trị khởi tạo ban đầu cho tùy chọn. Nó có thể là on hoặc off
+Ví dụ:
+option(BUILD_TESTS "Build unit tests" ON)
+Định nghĩa BUILD_TEST với mô tả build unit tests và giá trị khởi tạo là ON
+if(BUILD_TESTS)
+    # Thực hiện các công việc liên quan đến việc xây dựng các unit tests
+    add_subdirectory(tests)
+endif()
+	
+10. message:
+Lệnh CMake sử dụng để hiện thị thông điệp tùy chỉnh trong quá trình cấu hình dự án.
+Điều này có thể hữu ích để thông báo thông tin, cảnh báo, hoặc ghi lại cấu hình
+cho người phát triển hoặc người sử dụng trong dự án
+Cú pháp:
+message([<mode>] "message_text")
+<mode> (tùy chọn): Xác định chế độ hiện thị của thông điệp và có thể là 1 trong các
+		giá trị sau:
+		-STATUS: Hiển thị thông điệp dưới dạng thông báo tiêu chuẩn
+		-WARNING: Hiển thị thông điệp dưới dạng thông báo tiêu chuẩn
+		-AUTHOR_WARNING: Hiển thị thông điệp dưới dạng cảnh báo tác giả màu đỏ
+		-SEND_ERROR: Hiển thị thông điệp dưới dạng lỗi và kết thúc quá trình 
+			     cấu hình
+		-FATAL_ERROR: Hiện thị thông điệp dưới dạng lỗi nghiêm trọng và ngừng quá trình cấu hình ngay lập tức
+message_text: Nội dung của thông điệp bạn muốn hiện thị
+Ví dụ:
+message(STATUS "Configuring project...")
+message(WARNING "This is a warning message.")
+message(AUTHOR_WARNING "This is an author warning message.")
+message(SEND_ERROR "This is a send error message. Configuration will fail.")
+message(FATAL_ERROR "This is a fatal error message. Configuration will stop.")
+---------------------------CONFIG FILE-----------------------------
+Trong Cmake, config file thường được sử dụng để lưu trữ các biến hoặc tùy chọn
+cấu hình dự án xmaf bạn muốn sử dụng trong mã nguồn của bạn. Một tệp cấu hình 
+thường có dạng .in và bạn có thể đặt các biểu thức định danh để đặt các giá trị
+cần thiết vào trong tệp cấu hình
+Mục đích của việc config file trong 1 dự án hoặc ứng dụng:
+Tách biệt các thông tin caais hình và tùy chọn khỏi mã nguồn chương trình
+Điều này mang lại 1 số lợi ích như sau:
+1. Tính tùy biến: Sử dụng tệp cấu hình cho phép người sử dụng hoặc quản trị hệ thống
+thay đổi cấu hình của ứng dụng mà không cần phải sửa mã nguồn. Điều này làm cho ứng
+dụng cho ứng dụng trở nên linh hoạt và có khả năng thích nghi với các môi trường
+khác nhau
+2. Bảo mật: Các thông tin cấu hình như mật khẩu, khóa bí mật, đường dẫn cơ sở dữ liệu
+và các thông tin nhạy cảm khác thường không nên được lưu trữ trực tiếp trong mã nguồn
+vì nó có thể trở thành thông tin công khai nếu mã nguồn bị tiết lộ. Sử dụng tệp cấu
+hình cho phép bạn lưu trữ các giá trị này 1 cách an toàn và có thể quản lí quyền truy cập đến
+tệp cấu hình
+3. Bảo trì dễ dàng: Cấu hình có thể thay đổi theo thời gian và trong các môi trường khác nhau
+Việc tách biệt thông tin cấu hình vào tệp riêng biệt giúp việc quản lí và bảo trì dễ dàng hơn
+4. Kiếm soát phiên bản: Tệp cấu hình hệ thống có thể được quản lí bằng hệ thống kiểm soát phiên bản
+riêng biệt, điều này giúp bạn theo dõi lịch sử thay đổi cấu hình và khôi phục lại nếu cần thiết
+5. Đảm bảo chất lượng: Bằng cách sử dụng tệp cấu hình, bạn có thể đảm bảo răng cấu hình được đánh giá,
+kiểm tra và kiểm tra lõi trước khi ứng dụng được triển khai giúp tránh các vấn đề liên quan đến cấu hình
+trong quá trình chạy
 
+-----------------------Các bước để config--------------
+1.Tạo directory configed
+2.Trong thư mục này, tạo file config.hpp.in và file CMakeLists.txt
+3.Viết file .in 
+4. Trong file CMakeLists.txt, sử dụng hàm configure_file
+--------------------------------------------------------
+Câu lệnh configure_file:
+Sử dụng để sao chép và tạo ra 1 tệp mới dựa trên tệp nguồn trong đó có thể
+thay thế các biểu thức định danh bằng giá trị cụ thể được xác định trong quá trình 
+cấu hình dự án.
+Cú pháp:
+configure_file(input_file output_file [@ONLY] [ESCAPE_QUOTES] [NEWLINE_STYLE [UNIX|WIN32|CRLF]])
+input_file: Tệp nguồn, là tệp mà bạn muốn sao chép và tạo lại
+output_file: Tên của tệp đích, là nơi tệp kết quả được tạo ra
+@ONLY : Khi được sử dụng, chỉ các biểu thức định danh có dạng @VARIABLE@ sẽ được
+	thay thế, các biểu thức k có dạng này sẽ k được thay thế
+ESCAPE_QUOTES: Khi được sử dụng sẽ tránh việc thoát các dấu ngoặc kép trong chuỗi 
+NEWLINE_STYLE: Xác định kiểu kết xuất cho dấu xuống dòng trong tệp đích.
+
+Ví dụ :
+config_file( "config.hpp.in"
+             "${CMAKE_BINARY_DIR}/configured_files/iclude"  ESCAPE_QUOTES)
+${CMAKE_BINARY_DIR}: đường dẫn trỏ đến thư mục thực thi chương trình (build)
+
+constexpr : nó dùng để xác định 1 biến hoặc 1 biểu thức hoặc hàm có thể tính toán
+ở thời điểm biên dịch mà k cần thực thi chương trình 
+string_view: một class trong C++ cho phpes bạ xem dữ liệu trong chuỗi mà k cần sao chép
+             hoặc mà bạn muốn xử lí nhanh chóng
+	     Nó không sao chép văn bản đó mà giữ 1 con trỏ để trỏ đến dữ liệu (không thể sửa chuỗi)
+
+-------------------------EXTERNAL LIBRARY WITH GIT SUBMODULE--------------
+Sử dụng thư viện từ Git vào dự án của bạn 
+Submodule trong Git là 1 kho lưu trữ con hoặc 1 dự án con mà bạn nhúng vào một kho
+lưu trữ GIT lớn hơn. Mục đích chính của submodule là cho phép bạn kết hợp 1 hoặc 
+nhiều kho lưu trữ con vào 1 dự án chung mà k cần mà k cần sao chép toàn bộ source
+code vào project
+Giả sự bạn đang làm việc với 1 dự án web, bạn muốn sử dụng 1 thư viện javascript
+bên ngoài và ứng dụng nó vào trang web của bạn. Thư viện này có thể là 1 kho Git
+riêng biệt. Bạn không muốn sao chép toàn bộ mã nguồn của thư viện vào dự án của mình
+mà chỉ muốn tham chiếu đến nó bằng cách sử dụng submodule
+
+
+1.Sử dụng câu lệnh Git init : Khởi tạo kho lưu trữ Git cho dự án của bạn
+2.Sử dụng câu lệnh git submodule add <url> <name_dir> : Thêm submodule từ link git
+và lưu vào thư mục <name_dir>
+3.Tạo 1 dir cmake/AddGitSubmodule.cmake:
+  Viết file AddGitSubmodule.cmake:
+	function(add_git_submodule dir)
+		find_package(Git REQUIRED)
+		if(NOT EXISTS ${dir}/CMakeLists.txt)
+			execute_process(COMMAND ${GIT_EXECUTABLE}
+				submodule update --init --recursive --${dir}
+				WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+			)
+		endif()
+		add_subdirectory(${dir})
+	endfunction(add_git_submodule)
+Hàm add_git_submodule được thiết kế để quản lý và tích hợp submodule vào dự án 
+CMake của bạn. Nó kiểm tra submodule đã được khởi tạo và cập nhật chưa, và sau đó
+thêm submodule vào quá trình build của bạn
+******************************************************************************
+Các câu lệnh liên quan:
+1. find_package :
+Sử dụng để tìm các gói của dự án, bạn có thể tìm các thư viện, framework, hoặc công
+cụ bên ngoài và sau đó sử dụng chúng trong dự án Cmake của mình.
+Cú pháp:
+find_package(package_name [version] [EXACT] [QUIET] [MODULE] [REQUIRED] [COMPONENTS [components...]])
+version: Phiên bản cụ thể của gói
+EXACT:Tìm chính xác phiên bản đã chỉ định
+QUIET: không hiển thị thông báo lỗi nếu k tìm thấy gói
+MODULE: Tìm gói dựa trên 1 tệp Cmake config hoặc module
+REQUIRED: Báo lỗi nếu không tìm thấy gói
+COMPONENTS [components...]: Tên của các thành phần cụ thể của gói
+2. NOT EXISTS : là 1 điều kiện kiểm tra sự tồn tại hoặc không tôn tại của 1 tệp
+hoặc thư mục. Nó thường được sử dụng trong các biểu thức điều kiện để kiểm tra 1 tệp
+hoặc 1 thư mục có tồn tại trong hệ thống tệp hay không.
+Ví dụ:
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/my_file.txt")
+  message("Tệp my_file.txt không tồn tại.")
+endif()
+Trong ví dụ này ta kiểm tra xem tệp my_file.txt có tồn tại trong thư mục hiện tại
+của dự án hay không.Nếu không tồn tại thông báo sẽ được đưa ra
+Bạn có thể kiểm tra sự tồn tại của 1 thư mục 
+3. execute_process:
+Sử dụng để thực thi 1 tiến trình bên ngoài, lệnh này cho phép bạn tương tác với 
+tiến trình bên ngoài, lấy thông tin từ tiến trình đó và thậm chí là kiêm tra kết
+quả của nó, lệnh này thường được dùng để thực hiện các tác vụ không liên quan trực
+tiếp đén quá trình xây dựng, ví dụ như kiểm tra sự tồn tại của các thư mục/tệp
+thiết lập các biến môi trường hoặc thực thi các tác vụ tùy chỉnh khác
+Cú pháp:
+execute_process(
+    COMMAND command [args...]
+    [WORKING_DIRECTORY dir]
+    [RESULT_VARIABLE var]
+    [OUTPUT_VARIABLE var]
+    [ERROR_VARIABLE var]
+    [OUTPUT_STRIP_TRAILING_WHITESPACE]
+    [ERROR_STRIP_TRAILING_WHITESPACE]
+)
+COMMAND commnad [args....]: Lệnh và các đối số của tiến trình mà bạn muốn thực thi
+WORKING_DIRECTORY dir: Thư mục làm việc cho tiến trình ngoài
+RESULT_VARIABLE var: Biến để lưu trữ mã trả về của tiến trình bên ngoài.
+OUTPUT_VARIABLE var: Biến để lưu trữ đầu ra tiêu chuẩn của tiến trình bên ngoài.
+ERROR_VARIABLE var: Biến để lưu trữ đầu ra lỗi của tiến trình bên ngoài.
+OUTPUT_STRIP_TRAILING_WHITESPACE và ERROR_STRIP_TRAILING_WHITESPACE: Tùy chọn để loại bỏ khoảng trắng cuối dòng từ đầu ra và lỗi.
+4. Biến GIT_EXECUTABLE:
+Dùng để lưu đường dẫn đến phiên bản cụ thể của Git trên máy của bạn
+Vậy lý do tại sao chúng ta không sử dụng lệnh git submodule update mà lại sử dụng
+lệnh ${GIT_EXECUTABLE} submodule update
+Sự khác biệt như sau :
+*Cách thực thi:
+git submodule update: Đây là  cách gọi trực tiếp lệnh git mà k cần biết đường dẫn cụ thể
+đến chương trình git miễn là git đã được cài đặt và thêm vào môi trường trên máy của bạn
+${GIT_EXECUTABLE} submodule update: đây là cách sử dụng biến GIT_EXECUTABLE để truy cập 
+vào đường dẫn đến chương trình Git đã được xác định trong Cmake. Biến này đảm bảo
+bạn đang sử dụng phiên bản Git đã được xác định trong môi trường Cmake
+*Tính nhất quán và di động:
+git submodule update: Nếu bạn sử dụng trực tiếp git, bạn sẽ phụ thuộc vào việc git
+đã được cài đặt và được thêm vào biến PATH trên máy tính của bạn. Điều này có thể dẫn đến
+sự không nhất quán và cần điều chỉnh mã nguồn Cmake trên từng máy riêng biệt
+${GIT_EXECUTABLE} submodule update: Sử dụng biến ${GIT_EXECUTABLE} giúp đảm bảo rằng bạn 
+đang sử dụng Git từ môi trường CMake đã được thiết lập. Điều này làm giảm sự phụ thuộc vào việc git đã được
+cài đặt và cấu hình đúng cách trên máy tính của bạn
+Tóm lại việc sự dụng GIT_EXECUTABLE là hiệu quả hơn đặc biệt khi làm việc trên nhiều môi trường và hệ thống
+khác nhau
+5. git submodule update:
+Sử dụng để cập nhât các submodule trong 1 kho lưu trữ GIT. Submodule là 1 kho lưu trữ con
+mà bạn có thể bao gồm trong kho lưu trữ chính của bạn.
+Cú pháp:
+git submodule update [--init] [--remote] [--recursive] [--merge] [--rebase] [--checkout <path>] [<path>...]
+
+-- init: Khởi tạo các submodule nếu chúng chưa đc khởi tạo
+--remote: Cập nhật các Submodule từ kho lưu trữ submodule gốc. Giúp bạn đảm bảo rằng
+	bạn đang sử dụng phiên bản mới nhất của các submodule
+--recursive: Cập nhật các submodule con của các submodule. Nó đảm bảo răng tất cả
+	    các submodule đều được cập nhật
+--merge    : thực hiện 1 sự hợp nhất
+--rebase   : thực hiện đặt lại các submodule
+--checkout <path>: chuyển sang 1 phiên bản cụ thể của submodule tại 1 đường dẫn chỉ định
+--<path>   : Đường dẫn đến các submodule cụ thể mà bạn muốn cập nhật. Nếu không có đường dẫn 
+	     nào được cung cấp, tất cả các submodule đều sẽ được cập nhật 
+6. Biến CMAKE_MODULE_PATH:
+là 1 biến môi trường trong Cmake được sử dụng để chỉ định danh sách các thư mục chứa các tệp CMake modules.
+Modun là các tệp Cmake dùng để định nghĩa các hàm, biến, chức năng tùy chỉnh để giúp bạn tự định nghĩa
+quá trình xây dựng dự án của mình
+
+Khi bạn sử dụng include() hoặc find_package() trong tệp Cmake của mình, Cmake sẽ tìm
+các mô-đun trong các thư mục được liệt kê trong biến CMAKE_MODULE_PATH để thực hiện tìm kiếm
+và include
+Vậy giả sử nếu bạn muốn include 1 module AddGitSubmodule.cmake ta cần phải thêm đường dẫn đến thư mục
+chưa module này vào biến CMAKE_MODULE_PATH
