@@ -1,0 +1,5 @@
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/4.VARIABLEOPTION/build/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/4.VARIABLEOPTION/build/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/4.VARIABLEOPTION/build/app/CMakeFiles/edit_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/4.VARIABLEOPTION/build/app/CMakeFiles/rebuild_cache.dir
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/4.VARIABLEOPTION/build/app/CMakeFiles/Executable.dir

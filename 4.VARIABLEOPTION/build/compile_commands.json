@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/mnt/f/IOT LAP/Linux/Source_Cmake_Study/4.VARIABLEOPTION/build/app",
+  "command": "/usr/bin/g++    -g   -o CMakeFiles/Executable.dir/main.cc.o -c \"/mnt/f/IOT LAP/Linux/Source_Cmake_Study/4.VARIABLEOPTION/app/main.cc\"",
+  "file": "/mnt/f/IOT LAP/Linux/Source_Cmake_Study/4.VARIABLEOPTION/app/main.cc"
+}
+]

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/5.CONFIGFILES/app/main.cc
+iostream
+-
+config.hpp
+/mnt/f/IOT LAP/Linux/Source_Cmake_Study/5.CONFIGFILES/app/config.hpp
+
+configured_files/include/config.hpp
+stdint.h
+-
+string_view
+-
+
